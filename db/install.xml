@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="mod/aitrainingsim/db" VERSION="20260731" COMMENT="XMLDB file for mod_aitrainingsim"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd">
+  <TABLES>
+    <TABLE NAME="aitrainingsim" COMMENT="One row per activity instance">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" COMMENT="Course this belongs to"/>
+        <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true" DEFAULT=""/>
+        <FIELD NAME="intro" TYPE="text" NOTNULL="false"/>
+        <FIELD NAME="introformat" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="jobrole" TYPE="char" LENGTH="255" NOTNULL="true" DEFAULT=""/>
+        <FIELD NAME="workplacesetting" TYPE="char" LENGTH="255" NOTNULL="true" DEFAULT=""/>
+        <FIELD NAME="learningobjective" TYPE="text" NOTNULL="false"/>
+        <FIELD NAME="difficultylevel" TYPE="char" LENGTH="20" NOTNULL="true" DEFAULT="intermediate"/>
+        <FIELD NAME="numsteps" TYPE="int" LENGTH="3" NOTNULL="true" DEFAULT="6"/>
+        <FIELD NAME="language" TYPE="char" LENGTH="20" NOTNULL="true" DEFAULT=""/>
+        <FIELD NAME="passingscore" TYPE="int" LENGTH="3" NOTNULL="true" DEFAULT="60"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="fk_course" TYPE="foreign" FIELDS="course" REFTABLE="course" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="aitrainingsim_scenarios" COMMENT="Generated scenario data for each activity instance">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="aitrainingsimid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="scenariojson" TYPE="text" NOTNULL="false" COMMENT="Full JSON scenario from GPT-4o"/>
+        <FIELD NAME="status" TYPE="char" LENGTH="20" NOTNULL="true" DEFAULT="pending"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="timegenerated" TYPE="int" LENGTH="10" NOTNULL="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="fk_sim" TYPE="foreign" FIELDS="aitrainingsimid" REFTABLE="aitrainingsim" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="aitrainingsim_attempts" COMMENT="Student simulation attempts">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="aitrainingsimid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="scenarioid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="state" TYPE="char" LENGTH="20" NOTNULL="true" DEFAULT="inprogress"/>
+        <FIELD NAME="currentstep" TYPE="int" LENGTH="3" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="score" TYPE="number" LENGTH="5" DECIMALS="2" NOTNULL="false"/>
+        <FIELD NAME="responses" TYPE="text" NOTNULL="false" COMMENT="JSON-encoded per-step responses"/>
+        <FIELD NAME="debriefdata" TYPE="text" NOTNULL="false" COMMENT="JSON skill radar data from GPT-4o"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="timefinished" TYPE="int" LENGTH="10" NOTNULL="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="fk_sim" TYPE="foreign" FIELDS="aitrainingsimid" REFTABLE="aitrainingsim" REFFIELDS="id"/>
+        <KEY NAME="fk_user" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="idx_user_sim" UNIQUE="false" FIELDS="userid, aitrainingsimid"/>
+      </INDEXES>
+    </TABLE>
+  </TABLES>
+</XMLDB>

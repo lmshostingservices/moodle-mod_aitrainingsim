@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component  = 'mod_aitrainingsim';
-$plugin->version    = 2026073100115;
+$plugin->version    = 2026073100;
 $plugin->requires   = 2024042200;       // Moodle 4.4.
 $plugin->supported  = [404, 503];       // Moodle 4.4 – 5.3.
 $plugin->maturity   = MATURITY_STABLE;

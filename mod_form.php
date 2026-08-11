@@ -30,7 +30,6 @@ require_once($CFG->dirroot . '/course/moodleform_mod.php');
  * Activity module settings form.
  */
 class mod_aitrainingsim_mod_form extends moodleform_mod {
-
     /**
      * Define the form elements.
      */

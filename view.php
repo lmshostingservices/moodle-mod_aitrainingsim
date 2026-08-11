@@ -23,6 +23,7 @@
  */
 
 require_once('../../config.php');
+require_login();
 require_once($CFG->dirroot . '/mod/aitrainingsim/lib.php');
 
 $id     = optional_param('id', 0, PARAM_INT);      // Course module ID.

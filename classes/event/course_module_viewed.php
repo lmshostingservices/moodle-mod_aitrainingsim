@@ -28,7 +28,6 @@ namespace mod_aitrainingsim\event;
  * Course module viewed event.
  */
 class course_module_viewed extends \core\event\course_module_viewed {
-
     /**
      * Set default properties for this event.
      */
